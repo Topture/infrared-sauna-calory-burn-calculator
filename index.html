@@ -1,130 +1,158 @@
-<style><!--
-.infrared-calculator-container {
-            font-family: 'Arial', sans-serif;
-            padding-bottom: 40px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            margin: 20px auto;
-            max-width: 600px;
-            background-color: #fff;
-        }
-        .infrared-calculator-title {
-            color: #333;
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .infrared-calculator-form {
-            padding: 20px;
-        }
-        .infrared-calculator-label {
-            margin-top: 10px;
-            color: #333;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .infrared-calculator-input,
-        .infrared-calculator-select {
-            width: 95%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        .infrared-calculator-button {
-            background-color: #278a33;
-            color: white;
-            padding: 20px 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        .infrared-calculator-button:hover {
-            background-color: #3f9646;
-        }
-        .infrared-calculator-results {
-            background-color: #f7f7f7;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            margin: 20px;
-            font-size: 20px;
-            font-weight: normal; /* Changed font weight to normal for results */
-            display: none; /* Hide results box by default */
-        }
-        .infrared-calculator-results p {
-            margin: 0; /* Added to ensure no extra space */
-        }
-        .infrared-calculator-results .result-label {
-            font-weight: bold; /* Only labels in results box are bold */
-        }
-        .infrared-calculator-help-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: -15px !important;
-            margin-bottom: 20px !important;
-        }
---></style>
-<div>
-<div class="infrared-calculator-container">
-<h2 class="infrared-calculator-title">Infrared Sauna Calorie Burned Calculator</h2>
-<form class="infrared-calculator-form" id="calculatorForm">
-<label class="infrared-calculator-label" for="duration">Session Duration (minutes):</label> <input required="" class="infrared-calculator-input" id="duration" type="number"> <label class="infrared-calculator-label" for="sessions">Sessions Per Week:</label> <input required="" class="infrared-calculator-input" id="sessions" type="number"> <label class="infrared-calculator-label" for="weight">Weight (lbs):</label> <input required="" class="infrared-calculator-input" id="weight" type="number"> <label class="infrared-calculator-label" for="temperature">Sauna Temperature (°F):</label> <input required="" class="infrared-calculator-input" id="temperature" type="number">
-<p class="infrared-calculator-help-text">For Infrared Saunas usually between 110 and 150°F</p>
-<!-- Added help text here --> <label class="infrared-calculator-label" for="age">Age:</label> <input required="" class="infrared-calculator-input" id="age" type="number"> <label class="infrared-calculator-label" for="gender">Gender:</label><select required="" class="infrared-calculator-select" id="gender">
-<option value="male">Male</option>
-<option value="female">Female</option>
-</select><label class="infrared-calculator-label" for="fitnessLevel">Fitness Level:</label><select required="" class="infrared-calculator-select" id="fitnessLevel">
-<option value="beginner">Beginner</option>
-<option value="intermediate">Intermediate</option>
-<option value="advanced">Advanced</option>
-</select><button class="infrared-calculator-button" type="button">Calculate</button>
-</form>
-<div class="infrared-calculator-results" id="results"></div>
-</div>
-<script>
-    function calculateCombinedCalories() {
-        // Inputs
-        const duration = parseFloat(document.getElementById('duration').value);
-        const sessionsPerWeek = parseFloat(document.getElementById('sessions').value);
-        const weightLbs = parseFloat(document.getElementById('weight').value);
-        const temperatureF = parseFloat(document.getElementById('temperature').value);
-        const age = parseFloat(document.getElementById('age').value);
-        const gender = document.getElementById('gender').value;
-        const fitnessLevel = document.getElementById('fitnessLevel').value;
-        
-        // Convert weight and temperature
-        const weightKg = weightLbs / 2.20462;
-        const temperatureC = (temperatureF - 32) * 5 / 9;
-        
-        // Adjusted calculation
-        let caloriesBurned = (0.052 * weightKg + 0.012 * duration + 0.048 * temperatureC - 0.02 * age - 0.009 * ({'beginner': 0, 'intermediate': 1, 'advanced': 2}[fitnessLevel])) * duration;
-        const caloriesPerWeek = caloriesBurned * sessionsPerWeek;
-        const runningEquivalent = Math.round(caloriesBurned / 100 * 5.5);
-        
-        // Display results
-        const resultsDiv = document.getElementById('results');
-        resultsDiv.innerHTML = `
-            <p><span class="result-label">Calories Burned Per Session:</span> ${Math.round(caloriesBurned)} calories</p>
-            <p><span class="result-label">Calories Burned Per Week:</span> ${Math.round(caloriesPerWeek)} calories</p>
-            <p><span class="result-label">Example:</span> Running at 9.6km/h for ${runningEquivalent} minutes would burn the same amount of calories as one sauna session.</p>
-        `;
-        
-        // Show results box
-        resultsDiv.style.display = 'block';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Infrared Sauna Calorie Burned Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 0;
     }
-</script>
-</div>
-<p style="font-size:12px; color:#666; padding:10px 20px; text-align:center;">
-  <strong>Disclaimer:</strong> This calculator is provided for general informational purposes only and does not constitute medical advice. Actual calorie burn will vary based on individual factors including health status, environment, and physiology. Always consult with a qualified healthcare provider before starting any new wellness or weight loss program. Topture is not liable for any outcomes associated with the use of this tool.
-</p>
+    .infrared-calculator-container {
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+    }
+    .infrared-calculator-title {
+      color: #333;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .infrared-calculator-label {
+      display: block;
+      margin-top: 10px;
+      color: #333;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .infrared-calculator-input,
+    .infrared-calculator-select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    .infrared-calculator-button {
+      background-color: #278a33;
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      width: 100%;
+    }
+    .infrared-calculator-button:hover {
+      background-color: #3f9646;
+    }
+    .infrared-calculator-results {
+      background-color: #f7f7f7;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      margin-top: 20px;
+      font-size: 16px;
+      display: none;
+    }
+    .infrared-calculator-results p {
+      margin: 0 0 10px;
+    }
+    .infrared-calculator-help-text {
+      font-size: 12px;
+      color: #666;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+    .infrared-disclaimer {
+      font-size: 12px;
+      color: #666;
+      margin-top: 30px;
+      text-align: center;
+      padding: 0 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="infrared-calculator-container">
+    <h2 class="infrared-calculator-title">Infrared Sauna Calorie Burned Calculator</h2>
+    <form id="calculatorForm">
+      <label class="infrared-calculator-label" for="duration">Session Duration (minutes):</label>
+      <input required class="infrared-calculator-input" id="duration" type="number">
 
+      <label class="infrared-calculator-label" for="sessions">Sessions Per Week:</label>
+      <input required class="infrared-calculator-input" id="sessions" type="number">
+
+      <label class="infrared-calculator-label" for="weight">Weight (lbs):</label>
+      <input required class="infrared-calculator-input" id="weight" type="number">
+
+      <label class="infrared-calculator-label" for="temperature">Sauna Temperature (°F):</label>
+      <input required class="infrared-calculator-input" id="temperature" type="number">
+      <p class="infrared-calculator-help-text">For Infrared Saunas usually between 110 and 150°F</p>
+
+      <label class="infrared-calculator-label" for="age">Age:</label>
+      <input required class="infrared-calculator-input" id="age" type="number">
+
+      <label class="infrared-calculator-label" for="gender">Gender:</label>
+      <select required class="infrared-calculator-select" id="gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+
+      <label class="infrared-calculator-label" for="fitnessLevel">Fitness Level:</label>
+      <select required class="infrared-calculator-select" id="fitnessLevel">
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+
+      <button class="infrared-calculator-button" type="button" onclick="calculateCombinedCalories()">Calculate</button>
+    </form>
+
+    <div class="infrared-calculator-results" id="results"></div>
+    <div class="infrared-disclaimer">
+      <strong>Disclaimer:</strong> This calculator is for informational purposes only and is not intended as medical advice. Actual calorie expenditure may vary. Always consult a healthcare professional before beginning any wellness or fitness routine. Topture is not liable for any outcomes associated with this tool.
+    </div>
+  </div>
+
+  <script>
+    function calculateCombinedCalories() {
+      const duration = parseFloat(document.getElementById('duration').value);
+      const sessionsPerWeek = parseFloat(document.getElementById('sessions').value);
+      const weightLbs = parseFloat(document.getElementById('weight').value);
+      const temperatureF = parseFloat(document.getElementById('temperature').value);
+      const age = parseFloat(document.getElementById('age').value);
+      const gender = document.getElementById('gender').value;
+      const fitnessLevel = document.getElementById('fitnessLevel').value;
+
+      const weightKg = weightLbs / 2.20462;
+      const temperatureC = (temperatureF - 32) * 5 / 9;
+
+      const fitnessMultiplier = { beginner: 0, intermediate: 1, advanced: 2 }[fitnessLevel];
+      let caloriesBurned = (0.052 * weightKg + 0.012 * duration + 0.048 * temperatureC - 0.02 * age - 0.009 * fitnessMultiplier) * duration;
+      const caloriesPerWeek = caloriesBurned * sessionsPerWeek;
+      const runningEquivalent = Math.round(caloriesBurned / 100 * 5.5);
+
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = `
+        <p><strong>Calories Burned Per Session:</strong> ${Math.round(caloriesBurned)} calories</p>
+        <p><strong>Calories Burned Per Week:</strong> ${Math.round(caloriesPerWeek)} calories</p>
+        <p><strong>Example:</strong> Running at 9.6km/h for ${runningEquivalent} minutes burns roughly the same amount as one sauna session.</p>
+      `;
+      resultsDiv.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
